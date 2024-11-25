@@ -33,13 +33,15 @@ def main(model_folder,
          sample_expression=True,
          num_expression_coeffs=10,
          plotting_module='pyrender',
-         use_face_contour=False):
-
+         use_face_contour=False,
+         height=1.68,
+         weight=55,
+         ):
     model = smplx.create(model_folder, model_type=model_type,
                          gender=gender, use_face_contour=use_face_contour,
                          num_betas=num_betas,
                          num_expression_coeffs=num_expression_coeffs,
-                         ext=ext)
+                         ext=ext, height=height, weight=weight)
     print(model)
 
     betas, expression = None, None
@@ -155,7 +157,12 @@ if __name__ == '__main__':
     parser.add_argument('--use-face-contour', default=False,
                         type=lambda arg: arg.lower() in ['true', '1'],
                         help='Compute the contour of the face')
-
+    parser.add_argument('--height', default=1.68, type=float,
+                        dest='height',
+                        help='Height of human model in meters.')
+    parser.add_argument('--weight', default=55, type=int,
+                        dest='weight',
+                        help='Weight of human model in kgs (to the nearest integer).')
     args = parser.parse_args()
 
     model_folder = osp.expanduser(osp.expandvars(args.model_folder))
@@ -169,6 +176,8 @@ if __name__ == '__main__':
     num_expression_coeffs = args.num_expression_coeffs
     sample_shape = args.sample_shape
     sample_expression = args.sample_expression
+    weight = args.weight
+    height = args.height
 
     main(model_folder, model_type, ext=ext,
          gender=gender, plot_joints=plot_joints,
@@ -177,4 +186,6 @@ if __name__ == '__main__':
          sample_shape=sample_shape,
          sample_expression=sample_expression,
          plotting_module=plotting_module,
-         use_face_contour=use_face_contour)
+         use_face_contour=use_face_contour,
+         height=height,
+         weight=weight,)
