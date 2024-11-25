@@ -1222,7 +1222,7 @@ class SMPLX(SMPLH):
         full_pose += self.pose_mean
 
         if self.gender == "male":
-            regressor_path = "/home/hguda/repos/models/data/smplx_measurements_to_betas_male.json"
+            regressor_path = "/home/hguda/repos/models/data/smplx_measurements_to_betas_male.json" # TODO: use relative path
             with open(regressor_path) as f:
                 data = json.load(f)
                 betas_regressor_male = (np.asarray(data["A"]).reshape(-1, 2), np.asarray(data["B"]).reshape(-1, 1))
